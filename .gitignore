@@ -1,8 +1,15 @@
-# Python cache
+# Python Virtual Environment
 __pycache__/
 *.py[cod]
 *$py.class
 *.pyc
+venv/
+env/
+.venv/
+Lib/
+Scripts/
+bin/
+
 
 # C extensions
 *.so
