@@ -10,12 +10,6 @@ def item_list(request):
     items = Item.objects.all() 
     return render(request, 'item_list.html', {'items': items})  
 
-
-def item_detail(request, item_id):
-    item = get_object_or_404(Item, id=item_id)  
-    return render(request, 'item_detail.html', {'item': item})  
-
-
 def add_to_cart(request, item_id):
     item = get_object_or_404(Item, id=item_id) 
    
