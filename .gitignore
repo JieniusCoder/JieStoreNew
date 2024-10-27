@@ -1,0 +1,79 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# C extensions
+*.so
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+*.env
+*.local
+*.development
+*.production
+
+# Local Django migrations (optional)
+**/migrations/
+
+# Ignore environment variables and settings files (if used)
+.env
+.env.*
+*.secret
+settings_local.py
+
+# Django Cache files
+**/django_cache/
+
+# Virtual environment (if located inside project)
+venv/
+ENV/
+env/
+
+# Jupyter Notebook files
+.ipynb_checkpoints
+
+# VS Code files
+.vscode/
+
+# macOS files
+.DS_Store
+
+# PyCharm files
+.idea/
+
+# Node modules (for frontend dependencies, if any)
+node_modules/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+
+# Test artifacts and reports
+*.coverage
+.tox/
+.pytest_cache/
+nosetests.xml
+test-*.xml
+.cache/
+coverage/
+*.cover
+
+# MyPy type checking artifacts
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Other IDE or editor settings
+*.sublime-project
+*.sublime-workspace
