@@ -32,11 +32,12 @@
   </head>
 
   <body>
-    <h1>Store List</h1>
+    <h1>Jie Store</h1>
     <h2>
       Disclamer: For every purchase in the store, you are paying Jie money to
       buy the product for himself
     </h2>
+    
     <div class="item-container">
       {% for item in items %}
       <div class="item-card">
@@ -49,6 +50,7 @@
         <div class="item-description">{{ item.description }}</div>
         <div class="item-price">${{ item.price }}</div>
         <button class="add-to-cart">Add to Cart</button>
+        
       </div>
       {% endfor %}
     </div>
