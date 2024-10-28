@@ -1,26 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Item List</title>
-    <link rel="stylesheet" href="../static/css/storefront.css">
-</head>
+    <link rel="stylesheet" href="../static/css/storefront.css" />
+    <nav class="navbar">
+      
+      <a href="cart/"
+        ><svg
+          class="cart-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path
+            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+          ></path>
+        </svg>
+        Shopping Cart</a
+      >
+    </nav>
+  </head>
 
-
-<body>
+  <body>
     <h1>Store List</h1>
-    <h2>Disclamer: For every purchase in the store, you are paying Jie money to buy the product for himself</h2>
+    <h2>
+      Disclamer: For every purchase in the store, you are paying Jie money to
+      buy the product for himself
+    </h2>
     <div class="item-container">
-        {% for item in items %}
-            <div class="item-card">
-                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="item-image">
-                <div class="item-name">{{ item.name }}</div>
-                <div class="item-description">{{ item.description }}</div>
-                <div class="item-price">${{ item.price }}</div>
-                <button class="add-to-cart">Add to Cart</button>
-            </div>
-        {% endfor %}
+      {% for item in items %}
+      <div class="item-card">
+        <img
+          src="{{ item.image.url }}"
+          alt="{{ item.name }}"
+          class="item-image"
+        />
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-description">{{ item.description }}</div>
+        <div class="item-price">${{ item.price }}</div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      {% endfor %}
     </div>
-</body>
+  </body>
 </html>
