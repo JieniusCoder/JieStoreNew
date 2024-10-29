@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Item, Cart, Order
-from django.http import HttpResponse
+from .models import Item, Cart, Order, CartItem
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def home(request):
@@ -10,14 +10,22 @@ def item_list(request):
     items = Item.objects.all() 
     return render(request, 'item_list.html', {'items': items})  
 
+def cart_view(request):
+    cart_item = Cart.objects.all()
+    return render(request, 'cart.html', {'cart': cart_item})
+
 def add_to_cart(request, item_id):
-    item = get_object_or_404(Item, id=item_id) 
-   
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    
-    # Add the item to the cart (you'll need to implement CartItem model for this)
-    cart.items.add(item)  # Assuming a ManyToMany relationship between Cart and Item
-    return redirect('item_list')  # Redirect to the item list page
+    if request.method == 'POST':
+        item = request.POST.get('item_id')
+        cart = Cart.objects.get(user=request.user)
+
+        cart, created = Cart.objects.get_or_create(user=request.user)
+
+        cart_item = CartItem.objects.create(cart=cart, item=item)
+        cart_item.save()
+
+        return JsonResponse({'status': 'success'})
+
 
 # View for checkout process
 def checkout(request):

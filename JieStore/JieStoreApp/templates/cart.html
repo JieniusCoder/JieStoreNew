@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart List</title>
+    <link rel="stylesheet" href="../../static/css/storefront.css" />
+    <nav class="navbar">
+      <a href="../"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-shopping-bag"
+        >
+          <path d="M6 2L3 6v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        Storefront</a
+      >
+    </nav>
+  </head>
+
+  <body>
+    <h1>Shopping Cart</h1>
+    <h2></h2>
+
+    <div class="cart-container">
+      {% for cart_item in cart %}
+      <div class="cart_item-card">
+        <img
+          src="{{ cart_item.image.url }}"
+          alt="{{ cart_item.name }}"
+          class="cart_item-image"
+        />
+        <div class="cart_item-name">{{ cart_item.name }}</div>
+        <div class="cart_item-description">{{ cart_item.description }}</div>
+        <div class="cart_item-price">${{ cart_item.price }}</div>
+        <button class="remove-from-cart">Remove From Cart</button>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
