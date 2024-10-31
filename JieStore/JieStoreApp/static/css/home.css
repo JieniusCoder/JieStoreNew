@@ -69,12 +69,33 @@ h1 {
 /* cat animation */
 .container {
   margin-top: 300px;
-  height: 400 px;
-  width: 700 px;
   position: absolute;
-  transform: translate(-50%, -50%);
-  left: 80%;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  left: 70%;
   top: 50%;
+  transform-origin: center;
+}
+
+:root {
+  --scale: 1; /* default scale */
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --scale: 0.8; /* reduce size on smaller screens */
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --scale: 0.6;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --scale: 0.4;
+  }
 }
 
 .cat {
