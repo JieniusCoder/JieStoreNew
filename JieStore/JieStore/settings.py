@@ -38,8 +38,19 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-#1@p9#lirj)7&)h62glu3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "true").lower() in ("1", "true", "yes")
 
-ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1,jiestorenew.onrender.com").split(",") if h.strip()]
 
+# Required for HTTPS behind Render's reverse proxy (admin forms, CSRF, etc.)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_TRUSTED_ORIGINS = [
+    "https://jiestorenew.onrender.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+if trusted := os.environ.get("CSRF_TRUSTED_ORIGINS", ""):
+    for h in trusted.split(","):
+        if h := h.strip():
+            CSRF_TRUSTED_ORIGINS.append(h)
 
 # Application definition
 
