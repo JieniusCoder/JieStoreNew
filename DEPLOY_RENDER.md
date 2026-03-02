@@ -128,6 +128,21 @@ Render’s disk is ephemeral. Uploaded images will be lost on redeploy. For prod
 
 ---
 
+## Troubleshooting 500 Errors
+
+If you get 500 errors (e.g. on admin add forms):
+
+1. **Temporarily enable DEBUG** to see the traceback:
+   - In Render → your Web Service → Environment, add `DEBUG` = `True`
+   - Redeploy, reproduce the error, and copy the full traceback from the error page
+   - Set `DEBUG` back to `False` when done
+
+2. **Check Render logs** (Dashboard → your service → Logs) for Python tracebacks.
+
+3. **Common causes:** CSRF_TRUSTED_ORIGINS, missing default image, database migrations.
+
+---
+
 ## Free Tier Notes
 
 - Web Service sleeps after ~15 minutes of no traffic; first request may take 30–60 seconds

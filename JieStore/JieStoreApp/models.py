@@ -25,7 +25,7 @@ class Item(models.Model):
     description = models.CharField(max_length=500)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='itemImages/', default='images/default.png')
+    image = models.ImageField(upload_to='itemImages/', blank=True, null=True)
 
     @staticmethod
     def get_all_items():
