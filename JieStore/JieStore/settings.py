@@ -24,9 +24,14 @@ try:
 except Exception:
     pass
 
-# Path settings for Media(ex. Images/)
+# Path settings for Media (Images)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Cloudinary storage for media files (production only, avoids ephemeral filesystem on Render)
+# Set CLOUDINARY_URL in env: cloudinary://api_key:api_secret@cloud_name
+if os.environ.get("CLOUDINARY_URL"):
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 # Quick-start development settings - unsuitable for production
@@ -61,6 +66,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.sites',
 
     'allauth',

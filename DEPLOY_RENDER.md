@@ -73,6 +73,7 @@ In your Web Service → **Environment** tab, add:
 | `PAYPAL_CLIENT_ID` | (your value) | From PayPal Developer |
 | `PAYPAL_CLIENT_SECRET` | (your value) | From PayPal Developer |
 | `PAYPAL_ENV` | `sandbox` or `live` | Use `live` for production payments |
+| `CLOUDINARY_URL` | `cloudinary://api_key:api_secret@cloud_name` | For item images (see Media Files below) |
 
 **Important:** After the first deploy, Render will give you a URL like `https://jiestore-xxxx.onrender.com`. Update `ALLOWED_HOSTS` to include that host (e.g. `jiestore-xxxx.onrender.com`).
 
@@ -121,10 +122,16 @@ python manage.py createsuperuser
 
 ## Media Files (Product Images)
 
-Render’s disk is ephemeral. Uploaded images will be lost on redeploy. For production:
+Render’s disk is ephemeral. Uploaded images will be lost on redeploy.
 
-- Use [Render Disk](https://render.com/docs/disks) for persistent storage, or
-- Use cloud storage (e.g. AWS S3) and configure `DEFAULT_FILE_STORAGE`
+**Use Cloudinary** (free tier) for persistent images:
+
+1. Sign up at [cloudinary.com](https://cloudinary.com)
+2. Go to **Dashboard** → **API Keys** and copy your credentials
+3. Add to Render Environment: `CLOUDINARY_URL=cloudinary://YOUR_API_KEY:YOUR_API_SECRET@YOUR_CLOUD_NAME`
+4. Redeploy. New uploads via admin will be stored on Cloudinary and persist across deploys.
+
+**Note:** Existing items with images uploaded before Cloudinary was configured will show a placeholder until you re-upload them in the admin.
 
 ---
 

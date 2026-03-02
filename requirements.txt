@@ -1,5 +1,7 @@
 Django==5.1.2
 Pillow==12.1.1
+django-cloudinary-storage==0.3.0
+cloudinary>=1.41.0
 django-allauth==65.14.3
 python-dotenv==1.1.1
 PyJWT==2.11.0
