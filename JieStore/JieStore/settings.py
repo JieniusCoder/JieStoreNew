@@ -28,12 +28,6 @@ except Exception:
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Cloudinary storage for media files (production only, avoids ephemeral filesystem on Render)
-# Set CLOUDINARY_URL in env: cloudinary://api_key:api_secret@cloud_name
-if os.environ.get("CLOUDINARY_URL"):
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -42,6 +36,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-#1@p9#lirj)7&)h62glu3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "true").lower() in ("1", "true", "yes")
+
+# Cloudinary storage for media files (production only; local dev uses media/ folder)
+# Set CLOUDINARY_URL in env: cloudinary://api_key:api_secret@cloud_name
+if not DEBUG and os.environ.get("CLOUDINARY_URL"):
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1,jiestorenew.onrender.com").split(",") if h.strip()]
 
@@ -66,8 +65,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
     'django.contrib.sites',
 
     'allauth',
@@ -76,6 +73,14 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'JieStoreApp.apps.JiestoreappConfig'
 ]
+# Cloudinary: only add if installed (for production; optional for local dev)
+try:
+    import cloudinary_storage  # noqa: F401
+    import cloudinary  # noqa: F401
+    INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles') + 1, 'cloudinary_storage')
+    INSTALLED_APPS.insert(INSTALLED_APPS.index('cloudinary_storage') + 1, 'cloudinary')
+except ImportError:
+    pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,12 +138,20 @@ WSGI_APPLICATION = 'JieStore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import dj_database_url
-
-db_from_env = dj_database_url.config(conn_max_age=600, conn_health_checks=True)
-if db_from_env:
-    DATABASES = {"default": db_from_env}
-else:
+try:
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=600, conn_health_checks=True)
+    if db_from_env:
+        DATABASES = {"default": db_from_env}
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
+except ImportError:
+    # dj-database-url not installed (e.g. minimal local dev); use SQLite
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",

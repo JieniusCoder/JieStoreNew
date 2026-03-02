@@ -21,6 +21,3 @@ urlpatterns = [
     path('checkout/cancel/', views.checkout_cancel, name='checkout_cancel'),
     path('login/', views.login, name='login'),
 ]
-
-# Serve media files (uploaded images) in dev and production
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

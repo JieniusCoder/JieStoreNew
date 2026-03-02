@@ -44,10 +44,11 @@
       {% for row in cart_items %}
       <div class="cart_item-card">
         <img
-          src="{% if row.item.image %}{{ row.item.image.url }}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3C/svg%3E{% endif %}"
+          src="{% if row.item.image %}{{ row.item.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}"
           alt="{{ row.item.name }}"
           class="cart_item-image"
-          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3C/svg%3E'; this.onerror=null;"
+          data-placeholder="{% static 'images/placeholder.svg' %}"
+          onerror="var p=this.getAttribute('data-placeholder');if(p){this.src=p;}this.onerror=null;"
         />
         <div class="cart_item-name">{{ row.item.name }}</div>
         <div class="cart_item-description">{{ row.item.description }}</div>
