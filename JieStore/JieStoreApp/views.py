@@ -15,7 +15,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .models import Item, UserCart, UserCartItem
+from .models import Category, Item, UserCart, UserCartItem
 
 
 def _google_env_keys_present() -> bool:
@@ -177,7 +177,16 @@ def login(request):
 
 
 def item_list(request):
-    items = Item.objects.all()
+    items = Item.objects.select_related("category").all()
+    category_id = request.GET.get("category")
+    if category_id:
+        try:
+            cat_id = int(category_id)
+            items = items.filter(category_id=cat_id)
+        except (TypeError, ValueError):
+            pass
+
+    categories = Category.objects.all().order_by("name")
     in_cart_ids = []
 
     if request.user.is_authenticated:
@@ -199,6 +208,8 @@ def item_list(request):
         "item_list.html",
         {
             "items": items,
+            "categories": categories,
+            "selected_category_id": category_id,
             "cart_count": cart_count,
             "in_cart_ids": in_cart_ids,
         },

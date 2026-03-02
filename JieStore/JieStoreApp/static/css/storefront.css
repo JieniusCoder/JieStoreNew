@@ -31,6 +31,111 @@ h2 {
   font-size: 40px;
 }
 
+.category-filter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px auto 32px;
+  justify-content: center;
+  padding: 14px 20px;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  max-width: fit-content;
+}
+
+.category-filter-label {
+  color: #ffcc00;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.category-dropdown {
+  position: relative;
+}
+
+.category-dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e0d6e9;
+  background: #121212;
+  border: 1px solid #3dd1e7;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.category-dropdown-btn:hover {
+  border-color: #5ee0f0;
+  box-shadow: 0 0 8px rgba(61, 209, 231, 0.25);
+}
+
+.category-dropdown-text {
+  flex: 1;
+  text-align: left;
+}
+
+.category-dropdown-icon {
+  color: #3dd1e7;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.category-dropdown.is-open .category-dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.category-dropdown-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: #1e1e1e;
+  border: 1px solid #3dd1e7;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  z-index: 100;
+}
+
+.category-dropdown.is-open .category-dropdown-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.category-dropdown-option {
+  display: block;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e0d6e9;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.category-dropdown-option:hover {
+  background: rgba(61, 209, 231, 0.15);
+  color: #fff;
+}
+
+.category-dropdown-option.is-selected {
+  background: rgba(61, 209, 231, 0.2);
+  color: #3dd1e7;
+  font-weight: 600;
+}
+
 .checkout-container {
   max-width: 900px;
   margin: 24px auto 90px;

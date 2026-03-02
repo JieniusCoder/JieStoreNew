@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Item List</title>
-    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}?v=2" />
     <nav class="navbar">
       <a href="{% url 'checkout' %}">Checkout</a>
       <a href="{% url 'cart_view' %}" id="cart-link"
@@ -45,6 +45,31 @@
       Disclamer: For every purchase in the store, you are paying Jie money to
       buy the product for himself
     </h2>
+
+    <div class="category-filter">
+      <span class="category-filter-label">Category</span>
+      <div class="category-dropdown">
+        <button type="button" class="category-dropdown-btn" id="cat-btn" aria-expanded="false" aria-haspopup="listbox">
+          <span class="category-dropdown-text">{% if selected_category_id %}{% for c in categories %}{% if selected_category_id == c.id|stringformat:"s" %}{{ c.name }}{% endif %}{% endfor %}{% else %}All{% endif %}</span>
+          <svg class="category-dropdown-icon" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M6 7.5L2 3.5h8z"/></svg>
+        </button>
+        <ul class="category-dropdown-list" id="cat-list" role="listbox">
+          <li><a href="{% url 'storefront' %}" class="category-dropdown-option {% if not selected_category_id %}is-selected{% endif %}">All</a></li>
+          {% for cat in categories %}
+          <li><a href="{% url 'storefront' %}?category={{ cat.id }}" class="category-dropdown-option {% if selected_category_id == cat.id|stringformat:"s" %}is-selected{% endif %}">{{ cat.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var btn=document.getElementById('cat-btn'), wrap=btn&&btn.closest('.category-dropdown'), list=document.getElementById('cat-list');
+      if(btn&&wrap&&list){
+        btn.onclick=function(e){ e.stopPropagation(); wrap.classList.toggle('is-open'); btn.setAttribute('aria-expanded',wrap.classList.contains('is-open')); };
+        document.onclick=function(){ wrap.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); };
+      }
+    })();
+    </script>
 
     <div class="item-container">
       {% for item in items %}
