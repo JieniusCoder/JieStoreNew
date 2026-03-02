@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment success</title>
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+  </head>
+  <body>
+    <h1>Payment complete</h1>
+    <h2>Thanks! Your cart has been cleared.</h2>
+    <div class="checkout-actions">
+      <a class="link-like" href="{% url 'storefront' %}">Back to store</a>
+    </div>
+  </body>
+</html>
+

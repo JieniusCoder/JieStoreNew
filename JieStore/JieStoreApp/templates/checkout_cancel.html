@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment canceled</title>
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+  </head>
+  <body>
+    <h1>Payment canceled</h1>
+    <h2>Your cart is still here.</h2>
+    <div class="checkout-actions">
+      <a class="link-like" href="{% url 'checkout' %}">Return to checkout</a>
+      <a class="link-like" href="{% url 'storefront' %}">Back to store</a>
+    </div>
+  </body>
+</html>
+

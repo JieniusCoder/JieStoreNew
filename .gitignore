@@ -27,8 +27,9 @@ db.sqlite3
 *.development
 *.production
 
-# Local Django migrations (optional)
-**/migrations/
+# Django migrations (track these in git)
+**/migrations/__pycache__/
+*.py[cod]
 
 # Ignore environment variables and settings files (if used)
 .env

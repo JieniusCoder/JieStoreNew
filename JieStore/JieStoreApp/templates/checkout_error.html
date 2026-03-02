@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout error</title>
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+  </head>
+  <body>
+    <h1>Checkout error</h1>
+    <h2>{{ message }}</h2>
+    <div class="checkout-actions">
+      <a class="link-like" href="{% url 'checkout' %}">Back to checkout</a>
+      <a class="link-like" href="{% url 'storefront' %}">Back to store</a>
+    </div>
+  </body>
+</html>
+

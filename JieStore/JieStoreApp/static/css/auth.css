@@ -1,0 +1,55 @@
+/* Auth pages (django-allauth overrides) - dark theme */
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #121212;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e0d6e9;
+  margin: 0 0 24px;
+  font-family: "Niconne", cursive;
+}
+
+.auth-text {
+  color: #b0a8b8;
+  font-size: 1rem;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.auth-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+  background: #3dd1e7;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.auth-btn:hover {
+  background: #2ab8cc;
+  transform: scale(1.02);
+}
+

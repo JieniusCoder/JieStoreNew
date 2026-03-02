@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In Via Google</title>
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+  </head>
+
+  <body>
+    <div class="auth-shell">
+      <div class="auth-card">
+        <h1 class="auth-title">Sign In Via Google</h1>
+        <form method="post">
+          {% csrf_token %}
+          <button class="auth-btn" type="submit">Continue</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from JieStoreApp import views as store_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/login/', store_views.login),
+    path('accounts/', include('allauth.urls')),
     path('', include("JieStoreApp.urls")),
 ]

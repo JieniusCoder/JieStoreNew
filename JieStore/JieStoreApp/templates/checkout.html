@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="{% url 'storefront' %}">Back to Store</a>
+      <a href="{% url 'cart_view' %}">
+        Cart {% if cart_count %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
+      </a>
+      <a href="{% url 'account_logout' %}">Logout</a>
+    </nav>
+
+    <h1>Checkout</h1>
+
+    {% if not cart_items %}
+    <h2>Cart is empty</h2>
+    {% else %}
+    <h2>Total: ${{ total }}</h2>
+
+    <div class="checkout-container">
+      <div class="checkout-card">
+        <h3>Order summary</h3>
+        <ul class="checkout-list">
+          {% for row in cart_items %}
+          <li class="checkout-row">
+            <span>{{ row.item.name }}</span>
+            <span>Qty: {{ row.qty }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="checkout-card">
+        <h3>Pay with card (Stripe)</h3>
+        {% if stripe_enabled %}
+        <form method="POST" action="{% url 'stripe_create_checkout_session' %}">
+          {% csrf_token %}
+          <button class="add-to-cart" type="submit">Pay with Stripe</button>
+        </form>
+        <p class="checkout-hint">
+          You’ll be redirected to Stripe Checkout to enter your card details.
+        </p>
+        {% else %}
+        <p class="checkout-hint">
+          Stripe isn’t configured. Set <code>STRIPE_SECRET_KEY</code> in your environment.
+        </p>
+        {% endif %}
+      </div>
+
+      <div class="checkout-card">
+        <h3>Pay with PayPal</h3>
+        {% if paypal_enabled %}
+        <form method="POST" action="{% url 'paypal_redirect_checkout' %}">
+          {% csrf_token %}
+          <button class="add-to-cart" type="submit">Pay with PayPal</button>
+        </form>
+        <p class="checkout-hint">
+          You’ll be redirected to PayPal to complete your payment.
+        </p>
+        {% else %}
+        <p class="checkout-hint">
+          PayPal isn’t configured. Set <code>PAYPAL_CLIENT_ID</code> and <code>PAYPAL_CLIENT_SECRET</code> in your environment.
+        </p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </body>
+</html>

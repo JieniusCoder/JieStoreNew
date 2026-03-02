@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Item List</title>
-    <link rel="stylesheet" href="../static/css/storefront.css" />
+    <link rel="stylesheet" href="{% static 'css/storefront.css' %}" />
     <nav class="navbar">
-      <a href="cart/"
+      <a href="{% url 'checkout' %}">Checkout</a>
+      <a href="{% url 'cart_view' %}" id="cart-link"
         ><svg
           class="cart-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -25,8 +27,15 @@
             d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
           ></path>
         </svg>
-        Shopping Cart</a
+        <span class="cart-link-text">Shopping Cart</span>
+        <span id="cart-badge" class="cart-badge" aria-label="Cart item count" {% if not cart_count %}style="display:none"{% endif %}>{{ cart_count|default:0 }}</span>
+      </a
       >
+      {% if user.is_authenticated %}
+      <a href="{% url 'account_logout' %}">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+      {% endif %}
     </nav>
   </head>
 
@@ -39,12 +48,9 @@
 
     <div class="item-container">
       {% for item in items %}
-      <div class="item-card">
-        <form
-          id="add-to-cart-form"
-          method="POST"
-          action="{% url 'add_to_cart' %}"
-        >
+      <div class="item-card" data-item-id="{{ item.id }}" data-add-url="{% url 'add_to_cart' item.id %}" data-remove-url="{% url 'remove_from_cart' item.id %}">
+        {% if user.is_authenticated and item.id in in_cart_ids %}
+        <form class="cart-form" method="POST" action="{% url 'remove_from_cart' item.id %}" data-action="remove">
           {% csrf_token %}
           <img
             src="{{ item.image.url }}"
@@ -54,10 +60,89 @@
           <div class="item-name">{{ item.name }}</div>
           <div class="item-description">{{ item.description }}</div>
           <div class="item-price">${{ item.price }}</div>
-          <button class="add-to-cart">Add to Cart</button>
+          <button class="remove-from-cart" type="submit">Remove from Cart</button>
         </form>
+        {% else %}
+        {% if user.is_authenticated %}
+        <form class="cart-form" method="POST" action="{% url 'add_to_cart' item.id %}" data-action="add">
+          {% csrf_token %}
+          <img
+            src="{{ item.image.url }}"
+            alt="{{ item.name }}"
+            class="item-image"
+          />
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-description">{{ item.description }}</div>
+          <div class="item-price">${{ item.price }}</div>
+          <button class="add-to-cart" type="submit">Add to Cart</button>
+        </form>
+        {% else %}
+        <img
+          src="{{ item.image.url }}"
+          alt="{{ item.name }}"
+          class="item-image"
+        />
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-description">{{ item.description }}</div>
+        <div class="item-price">${{ item.price }}</div>
+        <a class="add-to-cart" href="{% url 'start_add_to_cart' item.id %}">Add to Cart</a>
+        {% endif %}
+        {% endif %}
       </div>
       {% endfor %}
     </div>
+
+    {% if user.is_authenticated %}
+    <script>
+      (function () {
+        function getCookie(name) {
+          const value = "; " + document.cookie;
+          const parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+          return null;
+        }
+
+        document.querySelectorAll(".cart-form").forEach(function (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const card = form.closest(".item-card");
+            const addUrl = card.dataset.addUrl;
+            const removeUrl = card.dataset.removeUrl;
+            const action = form.dataset.action;
+            const url = action === "add" ? addUrl : removeUrl;
+            const csrf = form.querySelector("input[name=csrfmiddlewaretoken]").value;
+
+            fetch(url, {
+              method: "POST",
+              headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": getCookie("csrftoken") || form.querySelector("input[name=csrfmiddlewaretoken]").value,
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: "csrfmiddlewaretoken=" + encodeURIComponent(csrf),
+            })
+              .then(function (r) {
+                if (!r.ok) throw new Error("Request failed");
+                return r.json();
+              })
+              .then(function (data) {
+                if (!data.success) return;
+                var badge = document.getElementById("cart-badge");
+                badge.textContent = data.cart_count;
+                badge.style.display = data.cart_count > 0 ? "" : "none";
+                form.action = data.in_cart ? removeUrl : addUrl;
+                form.dataset.action = data.in_cart ? "remove" : "add";
+                var btn = form.querySelector("button");
+                btn.textContent = data.in_cart ? "Remove from Cart" : "Add to Cart";
+                btn.className = data.in_cart ? "remove-from-cart" : "add-to-cart";
+              })
+              .catch(function () {
+                form.submit();
+              });
+          });
+        });
+      })();
+    </script>
+    {% endif %}
   </body>
 </html>
