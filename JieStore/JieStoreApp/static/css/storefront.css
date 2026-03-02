@@ -271,6 +271,15 @@ h2 {
   width: 200px;
   text-align: center;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card .cart-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .item-card:hover {
@@ -292,6 +301,9 @@ h2 {
 .item-description {
   font-size: 0.9em;
   color: #b0bec5;
+  margin-bottom: 10px;
+  flex: 1;
+  min-height: 0;
 }
 
 .item-price {
