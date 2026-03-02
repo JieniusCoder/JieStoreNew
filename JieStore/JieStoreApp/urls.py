@@ -22,6 +22,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
 ]
 
-# handling images
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve media files (uploaded images) in dev and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
