@@ -80,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'JieStoreApp.middleware.Log500Middleware',
 ]
 
 ROOT_URLCONF = 'JieStore.urls'

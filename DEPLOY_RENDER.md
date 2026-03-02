@@ -132,14 +132,20 @@ Render’s disk is ephemeral. Uploaded images will be lost on redeploy. For prod
 
 If you get 500 errors (e.g. on admin add forms):
 
-1. **Temporarily enable DEBUG** to see the traceback:
-   - In Render → your Web Service → Environment, add `DEBUG` = `True`
-   - Redeploy, reproduce the error, and copy the full traceback from the error page
-   - Set `DEBUG` back to `False` when done
+1. **Check Render logs** (Dashboard → your service → **Logs**). The app now logs full tracebacks; look for `Unhandled exception:` or Python tracebacks.
 
-2. **Check Render logs** (Dashboard → your service → Logs) for Python tracebacks.
+2. **Verify DATABASE_URL is set:**
+   - Go to your Web Service → **Environment**
+   - Ensure `DATABASE_URL` exists (from your PostgreSQL service)
+   - If missing: go to your PostgreSQL service → **Connect** → copy **Internal Database URL** → add as `DATABASE_URL` in the Web Service
+   - Or **link** the database: PostgreSQL service → **Connect** → **Add to Web Service** → select your web service
 
-3. **Common causes:** CSRF_TRUSTED_ORIGINS, missing default image, database migrations.
+3. **Database permissions:** Render PostgreSQL has full read/write. If you see `permission denied` or `read-only` in logs, the app may be using SQLite (no `DATABASE_URL`). Fix by adding `DATABASE_URL`.
+
+4. **Temporarily enable DEBUG** to see the traceback on the error page:
+   - Add `DEBUG` = `True` in Environment, redeploy, reproduce, copy the traceback, then set back to `False`.
+
+5. **Common causes:** Missing DATABASE_URL (SQLite fails on Render), CSRF_TRUSTED_ORIGINS, migrations not run.
 
 ---
 
